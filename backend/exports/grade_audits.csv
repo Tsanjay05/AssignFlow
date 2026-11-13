@@ -1,0 +1,10 @@
+id,grade_id,previous_score,new_score,change_reason,changed_at
+2,GRD-2026-000034,82.0,88.0,Grade adjustment following appeal approval APL-2026-000003,2026-01-26T07:00:00+00:00
+3,GRD-2026-000056,71.7,77.7,Grade adjustment following appeal approval APL-2026-000005,2026-01-29T18:00:00+00:00
+4,GRD-2026-000078,84.9,90.9,Grade adjustment following appeal approval APL-2026-000007,2026-01-30T23:00:00+00:00
+5,GRD-2026-000100,90.2,96.2,Grade adjustment following appeal approval APL-2026-000009,2026-02-04T14:00:00+00:00
+6,GRD-2026-000122,81.2,87.2,Grade adjustment following appeal approval APL-2026-000011,2026-02-07T12:00:00+00:00
+7,GRD-2026-000144,85.2,91.2,Grade adjustment following appeal approval APL-2026-000013,2026-02-08T04:00:00+00:00
+8,GRD-2026-000166,95.1,100.0,Grade adjustment following appeal approval APL-2026-000015,2026-02-08T00:00:00+00:00
+9,GRD-2026-000188,79.9,85.9,Grade adjustment following appeal approval APL-2026-000017,2026-02-11T20:00:00+00:00
+10,GRD-2026-000210,64.7,70.7,Grade adjustment following appeal approval APL-2026-000019,2026-02-14T04:00:00+00:00

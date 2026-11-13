@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-11-13T09:50:23.588912+00:00",
+  "seed": 20261022,
+  "scale": "starter",
+  "record_counts": {
+    "courses": 5,
+    "learners": 200,
+    "enrollments": 394,
+    "assignments": 20,
+    "rubrics": 20,
+    "rubric_criteria": 60,
+    "submissions": 630,
+    "submission_artifacts": 800,
+    "grades": 600,
+    "criterion_scores": 1800,
+    "feedback": 600,
+    "resubmissions": 30,
+    "appeals": 20,
+    "grade_audits": 9
+  },
+  "anomalies_count": 4,
+  "database_file": "C:/CandidateWorkspace/backend/assignflow.db"
+}

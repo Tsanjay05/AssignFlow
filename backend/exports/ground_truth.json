@@ -1,0 +1,45 @@
+{
+  "seed": 20261022,
+  "scale": "starter",
+  "anomalies_count": 4,
+  "anomalies": [
+    {
+      "anomaly_id": "ANOMALY-001",
+      "anomaly_type": "unenrolled_learner_submission",
+      "submission_id": "SUB-2026-000042",
+      "learner_id": "LRN-2026-000001",
+      "assignment_id": "ASN-2026-000002",
+      "course_id": "CRS-2026-000002",
+      "description": "Submission made by learner not enrolled in the assignment course"
+    },
+    {
+      "anomaly_id": "ANOMALY-002",
+      "anomaly_type": "grade_exceeds_rubric_max",
+      "grade_id": "GRD-2026-000085",
+      "submission_id": "SUB-2026-000085",
+      "score": 115.0,
+      "rubric_max": 100.0,
+      "description": "Grade final_score exceeds the rubric maximum points"
+    },
+    {
+      "anomaly_id": "ANOMALY-003",
+      "anomaly_type": "late_penalty_applied_twice",
+      "grade_id": "GRD-2026-000007",
+      "submission_id": "SUB-2026-000007",
+      "raw_score": 80.2,
+      "expected_penalty": 10.0,
+      "applied_penalty": 20.0,
+      "final_score": 60.2,
+      "description": "Late penalty was applied twice to the grade"
+    },
+    {
+      "anomaly_id": "ANOMALY-004",
+      "anomaly_type": "appeal_without_audit_history",
+      "appeal_id": "APL-2026-000001",
+      "grade_id": "GRD-2026-000012",
+      "original_score": 84.8,
+      "updated_score": 90.8,
+      "description": "Appeal changed grade score without an audit history log record"
+    }
+  ]
+}

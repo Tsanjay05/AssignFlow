@@ -1,0 +1,21 @@
+id,course_id,title,due_date,max_attempts,allow_resubmission,is_published
+ASN-2026-000001,CRS-2026-000001,Syntax and Basic Control Flow,2026-01-19T09:00:00+00:00,2,True,True
+ASN-2026-000002,CRS-2026-000002,Array and List Manipulations,2026-01-23T09:00:00+00:00,2,True,True
+ASN-2026-000003,CRS-2026-000003,Sorting and Searching Algorithms,2026-01-27T09:00:00+00:00,2,True,True
+ASN-2026-000004,CRS-2026-000004,Binary Search Tree Implementation,2026-01-31T09:00:00+00:00,2,True,True
+ASN-2026-000005,CRS-2026-000005,Graph Traversal & Shortest Path,2026-02-04T09:00:00+00:00,2,True,True
+ASN-2026-000006,CRS-2026-000001,Relational Schema Design & DDL,2026-02-03T09:00:00+00:00,2,True,True
+ASN-2026-000007,CRS-2026-000002,Complex SQL Queries & Joins,2026-02-07T09:00:00+00:00,2,True,True
+ASN-2026-000008,CRS-2026-000003,RESTful API Endpoint Development,2026-02-11T09:00:00+00:00,2,True,True
+ASN-2026-000009,CRS-2026-000004,Client-Server Socket Communication,2026-02-15T09:00:00+00:00,2,True,True
+ASN-2026-000010,CRS-2026-000005,Multithreaded Producer-Consumer Queue,2026-02-19T09:00:00+00:00,2,True,True
+ASN-2026-000011,CRS-2026-000001,Unit Testing and Code Coverage,2026-02-18T09:00:00+00:00,2,True,True
+ASN-2026-000012,CRS-2026-000002,Authentication and Token Verification,2026-02-22T09:00:00+00:00,2,True,True
+ASN-2026-000013,CRS-2026-000003,Cache Layer Implementation,2026-02-26T09:00:00+00:00,2,True,True
+ASN-2026-000014,CRS-2026-000004,Database Normalization Exercise,2026-03-02T09:00:00+00:00,2,True,True
+ASN-2026-000015,CRS-2026-000005,Continuous Integration Pipeline Setup,2026-03-06T09:00:00+00:00,2,True,True
+ASN-2026-000016,CRS-2026-000001,Asynchronous Task Processing,2026-03-05T09:00:00+00:00,2,True,True
+ASN-2026-000017,CRS-2026-000002,Data Parsing and Serialization,2026-03-09T09:00:00+00:00,2,True,True
+ASN-2026-000018,CRS-2026-000003,Containerized Microservice Build,2026-03-13T09:00:00+00:00,2,True,True
+ASN-2026-000019,CRS-2026-000004,Web Security Vulnerability Audit,2026-03-17T09:00:00+00:00,2,True,True
+ASN-2026-000020,CRS-2026-000005,Final Capstone Project Implementation,2026-03-21T09:00:00+00:00,2,True,True

@@ -1,0 +1,61 @@
+id,rubric_id,name,max_marks
+1,RUB-2026-000001,Core Functional Implementation,50
+2,RUB-2026-000001,Code Quality & Architecture,30
+3,RUB-2026-000001,Testing & Documentation,20
+4,RUB-2026-000002,Core Functional Implementation,50
+5,RUB-2026-000002,Code Quality & Architecture,30
+6,RUB-2026-000002,Testing & Documentation,20
+7,RUB-2026-000003,Core Functional Implementation,50
+8,RUB-2026-000003,Code Quality & Architecture,30
+9,RUB-2026-000003,Testing & Documentation,20
+10,RUB-2026-000004,Core Functional Implementation,50
+11,RUB-2026-000004,Code Quality & Architecture,30
+12,RUB-2026-000004,Testing & Documentation,20
+13,RUB-2026-000005,Core Functional Implementation,50
+14,RUB-2026-000005,Code Quality & Architecture,30
+15,RUB-2026-000005,Testing & Documentation,20
+16,RUB-2026-000006,Core Functional Implementation,50
+17,RUB-2026-000006,Code Quality & Architecture,30
+18,RUB-2026-000006,Testing & Documentation,20
+19,RUB-2026-000007,Core Functional Implementation,50
+20,RUB-2026-000007,Code Quality & Architecture,30
+21,RUB-2026-000007,Testing & Documentation,20
+22,RUB-2026-000008,Core Functional Implementation,50
+23,RUB-2026-000008,Code Quality & Architecture,30
+24,RUB-2026-000008,Testing & Documentation,20
+25,RUB-2026-000009,Core Functional Implementation,50
+26,RUB-2026-000009,Code Quality & Architecture,30
+27,RUB-2026-000009,Testing & Documentation,20
+28,RUB-2026-000010,Core Functional Implementation,50
+29,RUB-2026-000010,Code Quality & Architecture,30
+30,RUB-2026-000010,Testing & Documentation,20
+31,RUB-2026-000011,Core Functional Implementation,50
+32,RUB-2026-000011,Code Quality & Architecture,30
+33,RUB-2026-000011,Testing & Documentation,20
+34,RUB-2026-000012,Core Functional Implementation,50
+35,RUB-2026-000012,Code Quality & Architecture,30
+36,RUB-2026-000012,Testing & Documentation,20
+37,RUB-2026-000013,Core Functional Implementation,50
+38,RUB-2026-000013,Code Quality & Architecture,30
+39,RUB-2026-000013,Testing & Documentation,20
+40,RUB-2026-000014,Core Functional Implementation,50
+41,RUB-2026-000014,Code Quality & Architecture,30
+42,RUB-2026-000014,Testing & Documentation,20
+43,RUB-2026-000015,Core Functional Implementation,50
+44,RUB-2026-000015,Code Quality & Architecture,30
+45,RUB-2026-000015,Testing & Documentation,20
+46,RUB-2026-000016,Core Functional Implementation,50
+47,RUB-2026-000016,Code Quality & Architecture,30
+48,RUB-2026-000016,Testing & Documentation,20
+49,RUB-2026-000017,Core Functional Implementation,50
+50,RUB-2026-000017,Code Quality & Architecture,30
+51,RUB-2026-000017,Testing & Documentation,20
+52,RUB-2026-000018,Core Functional Implementation,50
+53,RUB-2026-000018,Code Quality & Architecture,30
+54,RUB-2026-000018,Testing & Documentation,20
+55,RUB-2026-000019,Core Functional Implementation,50
+56,RUB-2026-000019,Code Quality & Architecture,30
+57,RUB-2026-000019,Testing & Documentation,20
+58,RUB-2026-000020,Core Functional Implementation,50
+59,RUB-2026-000020,Code Quality & Architecture,30
+60,RUB-2026-000020,Testing & Documentation,20

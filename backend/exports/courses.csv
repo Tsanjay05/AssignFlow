@@ -1,0 +1,6 @@
+id,name,description,is_active,created_at
+CRS-2026-000001,Introduction to Computer Science,Foundational principles of computer science and computational thinking.,True,2026-01-02T09:00:00+00:00
+CRS-2026-000002,Data Structures and Algorithms,"Comprehensive study of core data structures, algorithms, and complexity analysis.",True,2026-01-03T09:00:00+00:00
+CRS-2026-000003,Database Management Systems,"Relational algebra, SQL, database design, normalization, and ACID properties.",True,2026-01-04T09:00:00+00:00
+CRS-2026-000004,Software Engineering Practices,"Modern software engineering methodologies, modular design, and testing patterns.",True,2026-01-05T09:00:00+00:00
+CRS-2026-000005,Cloud Computing and Distributed Systems,"Architecture of distributed systems, cloud infrastructure, and microservices.",True,2026-01-06T09:00:00+00:00

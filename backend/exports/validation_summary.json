@@ -1,0 +1,91 @@
+{
+  "validated_at": "2026-11-13T09:50:24.535138+00:00",
+  "database_file": "C:\\CandidateWorkspace\\backend\\assignflow.db",
+  "overall_status": "VALIDATED_WITH_EXPECTED_ANOMALIES",
+  "total_anomalies_detected": 4,
+  "checks": {
+    "integrity": {
+      "status": "PASS",
+      "tables_checked": 14,
+      "foreign_key_violations": 0,
+      "primary_key_violations": 0
+    },
+    "enrollment_consistency": {
+      "status": "ANOMALY_DETECTED",
+      "total_submissions_inspected": 630,
+      "anomalies_detected": 1,
+      "detected_items": [
+        {
+          "anomaly_type": "unenrolled_learner_submission",
+          "entity_id": "SUB-2026-000042",
+          "submission_id": "SUB-2026-000042",
+          "learner_id": "LRN-2026-000001",
+          "course_id": "CRS-2026-000002",
+          "assignment_id": "ASN-2026-000002",
+          "detail": "Submission SUB-2026-000042 belongs to learner LRN-2026-000001 who is not enrolled in course CRS-2026-000002."
+        }
+      ]
+    },
+    "score_reconciliation": {
+      "status": "ANOMALY_DETECTED",
+      "total_grades_inspected": 600,
+      "anomalies_detected": 1,
+      "detected_items": [
+        {
+          "anomaly_type": "grade_exceeds_rubric_max",
+          "entity_id": "GRD-2026-000085",
+          "grade_id": "GRD-2026-000085",
+          "submission_id": "SUB-2026-000085",
+          "score": 115.0,
+          "rubric_max": 100.0,
+          "detail": "Grade GRD-2026-000085 score (115.0) exceeds rubric max (100.0)."
+        }
+      ]
+    },
+    "penalty_logic": {
+      "status": "ANOMALY_DETECTED",
+      "total_grades_inspected": 600,
+      "anomalies_detected": 1,
+      "detected_items": [
+        {
+          "anomaly_type": "late_penalty_applied_twice",
+          "entity_id": "GRD-2026-000007",
+          "grade_id": "GRD-2026-000007",
+          "submission_id": "SUB-2026-000007",
+          "raw_score": 80.2,
+          "applied_penalty": 20.0,
+          "expected_penalty": 10.0,
+          "final_score": 60.2,
+          "detail": "Grade GRD-2026-000007 had late penalty applied twice (20.0 deduction)."
+        }
+      ]
+    },
+    "traceability": {
+      "status": "ANOMALY_DETECTED",
+      "total_approved_appeals_inspected": 10,
+      "anomalies_detected": 1,
+      "detected_items": [
+        {
+          "anomaly_type": "appeal_without_audit_history",
+          "entity_id": "APL-2026-000001",
+          "appeal_id": "APL-2026-000001",
+          "grade_id": "GRD-2026-000012",
+          "original_score": 84.8,
+          "updated_score": 90.8,
+          "detail": "Appeal APL-2026-000001 modified grade GRD-2026-000012 score without an audit log record."
+        }
+      ]
+    }
+  },
+  "evaluation_metrics": {
+    "ground_truth_file": "C:\\CandidateWorkspace\\backend\\exports\\ground_truth.json",
+    "ground_truth_found": true,
+    "true_positives": 4,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "total_ground_truth_anomalies": 4
+  }
+}
