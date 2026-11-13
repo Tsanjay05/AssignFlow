@@ -3,49 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AssignFlow Dashboard – Assignment Management & Evaluation Platform</title>
-    <!-- Tailwind CSS CDN for modern responsive UI styling -->
+    <title>AssignFlow – Enterprise Assignment Management &amp; Evaluation Platform</title>
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: #f8fafc; }
-        .status-ok { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-        .status-error { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-        .status-checking { background-color: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
-        .badge-critical { background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-        .badge-high { background-color: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
-        .badge-medium { background-color: #fefce8; color: #a16207; border: 1px solid #fef08a; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+        }
+        code, kbd, samp, pre {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .fade-in {
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar for data tables */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 antialiased flex flex-col justify-between">
+<body class="min-h-screen text-slate-800 antialiased flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
     <!-- Top Navigation Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-40 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-indigo-200">
-                    AF
+            <!-- Brand & Product Identity -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-200 ring-2 ring-indigo-50">
+                    <i class="fa-solid fa-layer-group text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-slate-900 leading-tight">AssignFlow</h1>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl font-extrabold text-slate-900 tracking-tight leading-tight">AssignFlow</h1>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-indigo-50 text-indigo-700 border border-indigo-200">
+                            Enterprise
+                        </span>
+                    </div>
                     <p class="text-xs text-slate-500 font-medium">Assignment Management &amp; Evaluation Platform</p>
                 </div>
             </div>
 
-            <!-- Status Indicator & Action Bar -->
+            <!-- Health Status & Actions -->
             <div class="flex items-center gap-3">
-                <div class="flex items-center text-xs font-medium">
-                    <span class="text-slate-500 mr-2 hidden sm:inline">Backend Status:</span>
-                    <span id="api-status" class="px-2.5 py-1 rounded-full text-xs font-semibold status-checking transition-colors duration-200">
-                        Checking...
+                <div class="flex items-center text-xs font-medium bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                    <span class="text-slate-500 mr-2 hidden sm:inline">Backend:</span>
+                    <span id="api-status" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 transition-all duration-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-pulse"></span>
+                        Connecting...
                     </span>
                 </div>
-                <button id="refresh-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors border border-indigo-200 active:scale-95">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                    </svg>
-                    Refresh
+
+                <button id="refresh-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white shadow-sm hover:shadow transition-all duration-150 active:scale-95 cursor-pointer">
+                    <i class="fa-solid fa-arrows-rotate text-xs" id="refresh-icon"></i>
+                    <span>Refresh</span>
                 </button>
             </div>
         </div>
@@ -53,150 +92,266 @@
 
     <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-8">
-        <!-- Error Banner Container -->
-        <div id="error-banner" class="hidden p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-center gap-3">
-            <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-            </svg>
-            <div id="error-message" class="font-medium">Backend server connection unavailable. Ensure FastAPI is running on port 8000.</div>
+
+        <!-- Error Notification Banner -->
+        <div id="error-banner" class="hidden p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-start gap-3 shadow-xs fade-in">
+            <div class="p-1 rounded-lg bg-rose-100 text-rose-600 flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-triangle-exclamation text-base"></i>
+            </div>
+            <div class="flex-grow">
+                <h4 class="font-bold text-rose-900 text-sm">System Communication Alert</h4>
+                <div id="error-message" class="text-xs text-rose-700 mt-0.5">Backend server connection unavailable. Ensure FastAPI is running on port 8000.</div>
+            </div>
+            <button onclick="document.getElementById('error-banner').classList.add('hidden')" class="text-rose-400 hover:text-rose-600 text-sm p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
-        <!-- Section: KPI Summary -->
-        <section aria-labelledby="kpi-heading">
-            <div class="flex items-center justify-between mb-4">
+        <!-- Section 1: KPI Summary -->
+        <section aria-labelledby="kpi-heading" class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                    <h2 id="kpi-heading" class="text-lg font-bold text-slate-900">System KPI Summary</h2>
-                    <p class="text-xs text-slate-500">Live operational metrics aggregated across all active courses and submissions</p>
+                    <h2 id="kpi-heading" class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-gauge-high text-indigo-600 text-base"></i>
+                        System KPI Summary
+                    </h2>
+                    <p class="text-xs text-slate-500">Live operational metrics aggregated across all active courses, learners, and submissions</p>
                 </div>
-                <div class="text-xs text-slate-400" id="last-updated-text">
-                    Updated: <span id="last-updated-time">--</span>
+                <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>Last Synced: <span id="last-updated-time" class="font-medium text-slate-600">--</span></span>
                 </div>
             </div>
 
             <!-- KPI Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <!-- KPI 1: Courses -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex items-center justify-between text-slate-400 mb-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Courses</span>
-                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                            </svg>
+
+                <!-- Card 1: Courses -->
+                <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 group">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Courses</span>
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-100 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-graduation-cap text-sm"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-extrabold text-slate-900" id="metric-courses">--</div>
-                    <p class="text-[11px] text-slate-400 mt-1">Active curriculum programs</p>
+                    <div class="text-3xl font-extrabold text-slate-900 tracking-tight" id="metric-courses">
+                        <div class="h-8 w-20 bg-slate-100 animate-pulse rounded-lg my-1"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                        <i class="fa-regular fa-folder-open text-[10px]"></i> Active curriculum programs
+                    </p>
                 </div>
 
-                <!-- KPI 2: Learners -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex items-center justify-between text-slate-400 mb-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Learners</span>
-                        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
+                <!-- Card 2: Learners -->
+                <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 group">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-600"></div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Learners</span>
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-md shadow-emerald-100 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-users text-sm"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-extrabold text-slate-900" id="metric-learners">--</div>
-                    <p class="text-[11px] text-slate-400 mt-1">Enrolled student cohort</p>
+                    <div class="text-3xl font-extrabold text-slate-900 tracking-tight" id="metric-learners">
+                        <div class="h-8 w-24 bg-slate-100 animate-pulse rounded-lg my-1"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                        <i class="fa-regular fa-id-badge text-[10px]"></i> Enrolled student cohort
+                    </p>
                 </div>
 
-                <!-- KPI 3: Assignments -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex items-center justify-between text-slate-400 mb-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Assignments</span>
-                        <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                            </svg>
+                <!-- Card 3: Assignments -->
+                <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 group">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-600"></div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Assignments</span>
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-purple-100 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-file-signature text-sm"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-extrabold text-slate-900" id="metric-assignments">--</div>
-                    <p class="text-[11px] text-slate-400 mt-1">Structured evaluations</p>
+                    <div class="text-3xl font-extrabold text-slate-900 tracking-tight" id="metric-assignments">
+                        <div class="h-8 w-20 bg-slate-100 animate-pulse rounded-lg my-1"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                        <i class="fa-regular fa-clipboard text-[10px]"></i> Structured rubrics &amp; tasks
+                    </p>
                 </div>
 
-                <!-- KPI 4: Submissions -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex items-center justify-between text-slate-400 mb-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Submissions</span>
-                        <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                            </svg>
+                <!-- Card 4: Submissions -->
+                <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 group">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-600"></div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Submissions</span>
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center shadow-md shadow-amber-100 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-extrabold text-slate-900" id="metric-submissions">--</div>
-                    <p class="text-[11px] text-slate-400 mt-1">Student submissions &amp; attempts</p>
+                    <div class="text-3xl font-extrabold text-slate-900 tracking-tight" id="metric-submissions">
+                        <div class="h-8 w-24 bg-slate-100 animate-pulse rounded-lg my-1"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Learner attempts &amp; uploads
+                    </p>
                 </div>
 
-                <!-- KPI 5: Average Score -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex items-center justify-between text-slate-400 mb-2">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Average Score</span>
-                        <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-                            </svg>
+                <!-- Card 5: Average Score -->
+                <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 group">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-pink-600"></div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Average Score</span>
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 text-white flex items-center justify-center shadow-md shadow-rose-100 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-award text-sm"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-extrabold text-slate-900" id="metric-avg-score">--</div>
-                    <p class="text-[11px] text-slate-400 mt-1">Mean final evaluation score</p>
+                    <div class="text-3xl font-extrabold text-slate-900 tracking-tight" id="metric-avg-score">
+                        <div class="h-8 w-20 bg-slate-100 animate-pulse rounded-lg my-1"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                        <i class="fa-solid fa-percent text-[10px]"></i> Mean final evaluated grade
+                    </p>
                 </div>
+
             </div>
         </section>
 
-        <!-- Section: Exception & Anomaly Queue -->
-        <section aria-labelledby="anomalies-heading" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <!-- Section Header -->
-            <div class="px-6 py-5 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4 bg-slate-50/50">
+        <!-- Section 2: Analytics & Visualizations -->
+        <section aria-labelledby="analytics-heading" class="space-y-4">
+            <div class="flex items-center justify-between">
                 <div>
-                    <div class="flex items-center gap-3">
-                        <h2 id="anomalies-heading" class="text-lg font-bold text-slate-900">Exception &amp; Anomaly Queue</h2>
-                        <span id="anomaly-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
-                            0 Detected
+                    <h2 id="analytics-heading" class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-indigo-600 text-base"></i>
+                        Analytics &amp; Data Insights
+                    </h2>
+                    <p class="text-xs text-slate-500">Visual breakdown of policy exception severities and aggregate platform throughput</p>
+                </div>
+            </div>
+
+            <!-- Visualizations Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Chart 1: Anomaly Severity Breakdown (1 Col on Desktop) -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-900">Anomaly Severity Breakdown</h3>
+                            <p class="text-xs text-slate-500">Policy violations categorized by threat level</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">
+                            <i class="fa-solid fa-chart-pie"></i>
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-0.5">Real-time policy reconciliation engine detecting edge cases, enrollment gaps, score discrepancies, and missing audits</p>
+
+                    <div class="relative h-56 w-full flex items-center justify-center my-2">
+                        <canvas id="anomalySeverityChart"></canvas>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Critical
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> High
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Medium
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Platform Scale & Volume (2 Cols on Desktop) -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-200 lg:col-span-2 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-900">Platform Scale &amp; Activity Distribution</h3>
+                            <p class="text-xs text-slate-500">Comparative volume across curriculum master data and learner lifecycle events</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </span>
+                    </div>
+
+                    <div class="relative h-56 w-full my-2">
+                        <canvas id="platformMetricsChart"></canvas>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                        <span>Metrics refresh automatically with live database state</span>
+                        <span class="font-medium text-slate-600">Unit: Entity Record Count</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Exception & Anomaly Queue -->
+        <section aria-labelledby="anomalies-heading" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <!-- Section Header -->
+            <div class="px-6 py-5 border-b border-slate-200/80 flex flex-wrap justify-between items-center gap-4 bg-slate-50/60">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h2 id="anomalies-heading" class="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-indigo-600 text-base"></i>
+                            Exception &amp; Anomaly Queue
+                        </h2>
+                        <span id="anomaly-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                            Scanning...
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Live policy reconciliation engine detecting edge cases, enrollment gaps, score discrepancies, and missing audit trails</p>
+                </div>
+                <div class="text-xs text-slate-400 hidden sm:block">
+                    <span class="font-medium text-slate-600">Integrity Engine:</span> Active Rule Checking
                 </div>
             </div>
 
             <!-- Anomalies Data Table -->
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-600 font-semibold text-xs uppercase tracking-wider">
+                <table class="min-w-full divide-y divide-slate-200/80 text-left text-sm">
+                    <thead class="bg-slate-50/80 text-slate-500 font-semibold text-xs uppercase tracking-wider">
                         <tr>
                             <th scope="col" class="px-6 py-3.5">Severity</th>
                             <th scope="col" class="px-6 py-3.5">Anomaly Type</th>
                             <th scope="col" class="px-6 py-3.5">Entity Reference</th>
                             <th scope="col" class="px-6 py-3.5">Violation Details</th>
-                            <th scope="col" class="px-6 py-3.5 text-right">Status</th>
+                            <th scope="col" class="px-6 py-3.5 text-right">Investigation Status</th>
                         </tr>
                     </thead>
                     <tbody id="anomalies-table-body" class="divide-y divide-slate-100 bg-white">
-                        <!-- Loading State Placeholder -->
-                        <tr>
-                            <td colspan="5" class="px-6 py-10 text-center text-slate-400">
-                                <div class="inline-flex items-center gap-2">
-                                    <svg class="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                    </svg>
-                                    <span>Scanning database for integrity violations...</span>
-                                </div>
-                            </td>
+                        <!-- Loading State Placeholder (Skeletons) -->
+                        <tr class="animate-pulse">
+                            <td class="px-6 py-4"><div class="h-6 w-20 bg-slate-100 rounded-md"></div></td>
+                            <td class="px-6 py-4"><div class="h-4 w-48 bg-slate-100 rounded"></div></td>
+                            <td class="px-6 py-4"><div class="h-5 w-32 bg-slate-100 rounded"></div></td>
+                            <td class="px-6 py-4"><div class="h-4 w-72 bg-slate-100 rounded"></div></td>
+                            <td class="px-6 py-4"><div class="h-6 w-28 bg-slate-100 rounded-full ml-auto"></div></td>
+                        </tr>
+                        <tr class="animate-pulse">
+                            <td class="px-6 py-4"><div class="h-6 w-20 bg-slate-100 rounded-md"></div></td>
+                            <td class="px-6 py-4"><div class="h-4 w-40 bg-slate-100 rounded"></div></td>
+                            <td class="px-6 py-4"><div class="h-5 w-32 bg-slate-100 rounded"></div></td>
+                            <td class="px-6 py-4"><div class="h-4 w-64 bg-slate-100 rounded"></div></td>
+                            <td class="px-6 py-4"><div class="h-6 w-28 bg-slate-100 rounded-full ml-auto"></div></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
-        AssignFlow Operational Platform &copy; 2026. Phase 6 Frontend Integration.
+    <!-- Professional Footer -->
+    <footer class="bg-white border-t border-slate-200 py-5 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span class="font-semibold text-slate-700">AssignFlow Core Engine</span>
+                <span class="text-slate-300">|</span>
+                <span>FastAPI &bull; SQLAlchemy &bull; SQLite &bull; Tailwind CSS</span>
+            </div>
+            <div>
+                AssignFlow Operational Platform &copy; 2026. High-Assurance Evaluation Lifecycle.
+            </div>
+        </div>
     </footer>
 
     <!-- App Logic Script -->
